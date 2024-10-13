@@ -3,6 +3,10 @@ import {log} from "./prettyLog.js";
 import {changeDir, checkArgs, parseCommand, trimParams} from "./common.js";
 import {createFile, deleteFile, getFolderLs, renameFile} from "../fs/baseFS.js";
 import {copyFile} from "../fs/copy.js";
+import {moveFile} from "../fs/move.js";
+import {readFile} from "../fs/readFile.js";
+import {calculateHash} from "../streams/hash.js";
+import {brotliCompress} from "../streams/brotli.js";
 
 export const processCmd = async (chunk) => {
     const {cmd, params} = parseCommand(chunk);
@@ -41,6 +45,42 @@ export const processCmd = async (chunk) => {
             const fileToCopy = params[0];
             const folderToCopy = params[1];
             await copyFile(fileToCopy, folderToCopy);
+            break;
+        }
+        case 'mv': {
+            if (!checkArgs(params, 2)) return log.warning('Invalid input\n');
+            const fileToCopy = params[0];
+            const folderToCopy = params[1];
+            await moveFile(fileToCopy, folderToCopy);
+            break;
+        }
+        case 'up': {
+            process.chdir('..');
+            break;
+        }
+        case 'cat': {
+            if (!checkArgs(params)) return log.warning('Invalid input\n');
+            await readFile(params[0]);
+            break;
+        }
+        case 'hash': {
+            if (!checkArgs(params)) return log.warning('Invalid input\n');
+            const fileName = params[0];
+            await calculateHash(fileName);
+            break;
+        }
+        case 'compress' : {
+            if (!checkArgs(params, 2)) return log.warning('Invalid input\n');
+            const fileToCopy = params[0];
+            const folderToCopy = params[1];
+            await brotliCompress(fileToCopy, folderToCopy, true);
+            break;
+        }
+        case 'decompress' : {
+            if (!checkArgs(params, 2)) return log.warning('Invalid input\n');
+            const fileToCopy = params[0];
+            const folderToCopy = params[1];
+            await brotliCompress(fileToCopy, folderToCopy, false);
             break;
         }
         case 'os': {
