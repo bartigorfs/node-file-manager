@@ -3,6 +3,7 @@ import {log} from "./prettyLog.js";
 import {changeDir, checkArgs, parseCommand, trimParams} from "./common.js";
 import {createFile, deleteFile, getFolderLs, renameFile} from "../fs/baseFS.js";
 import {copyFile} from "../fs/copy.js";
+import {moveFile} from "../fs/move.js";
 
 export const processCmd = async (chunk) => {
     const {cmd, params} = parseCommand(chunk);
@@ -41,6 +42,13 @@ export const processCmd = async (chunk) => {
             const fileToCopy = params[0];
             const folderToCopy = params[1];
             await copyFile(fileToCopy, folderToCopy);
+            break;
+        }
+        case 'mv': {
+            if (!checkArgs(params, 2)) return log.warning('Invalid input\n');
+            const fileToCopy = params[0];
+            const folderToCopy = params[1];
+            await moveFile(fileToCopy, folderToCopy);
             break;
         }
         case 'os': {
