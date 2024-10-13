@@ -51,7 +51,7 @@ export const changeDir = (newPath) => {
 Writes greeting message
  */
 export const writeGreetings = () => {
-    log.success(`Welcome to the File Manager, ${getUsername()}! \n`)
+    log.success(`Welcome to the File Manager, ${username}! \n`)
 }
 
 /*
