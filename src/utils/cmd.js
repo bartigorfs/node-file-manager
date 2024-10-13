@@ -1,6 +1,6 @@
 import {baseHomeDir, getArch, getCpus, getEOL, getSystemUserName} from "./os.js";
 import {log} from "./prettyLog.js";
-import {parseCommand, trimParams} from "./common.js";
+import {changeDir, checkArgs, parseCommand, trimParams} from "./common.js";
 import {getFolderLs} from "../fs/baseFS.js";
 
 export const processCmd = async (chunk) => {
@@ -10,6 +10,12 @@ export const processCmd = async (chunk) => {
         case 'ls':
             const directory = process.cwd();
             return console.table(await getFolderLs(directory), ['Name', 'Type']);
+        case 'cd': {
+            if (!checkArgs(params)) return log.warning('Invalid input\n');
+            const newPath = params[0];
+            changeDir(newPath);
+            break;
+        }
         case 'os': {
             const os_params = params.join(' ').trim();
             if (trimParams(os_params).length <= 0) return log.warning('Invalid input\n');
