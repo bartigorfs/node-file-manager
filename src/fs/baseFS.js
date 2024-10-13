@@ -28,6 +28,22 @@ export const createFile = async (filename) => {
         if (!await isFileExists(FILE_PATH)) {
             await fs.open(FILE_PATH, 'a').then(fh => fh.close());
         } else log.warning('Operation failed\n');
+
+        log.success(`File ${filename} successfully added!\n`);
+    } catch (e) {
+        return log.warning('Operation failed\n');
+    }
+}
+
+export const deleteFile = async (filename) => {
+    try {
+        const FILE_PATH = path.resolve(filename);
+
+        if (await isFileExists(FILE_PATH)) {
+            await fs.rm(FILE_PATH);
+        } else log.warning('Operation failed\n');
+
+        log.success(`File ${filename} successfully deleted!\n`);
     } catch (e) {
         return log.warning('Operation failed\n');
     }
