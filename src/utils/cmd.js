@@ -51,6 +51,10 @@ export const processCmd = async (chunk) => {
             await moveFile(fileToCopy, folderToCopy);
             break;
         }
+        case 'up': {
+            process.chdir('..');
+            break;
+        }
         case 'os': {
             const os_params = params.join(' ').trim();
             if (trimParams(os_params).length <= 0) return log.warning('Invalid input\n');
