@@ -4,9 +4,9 @@ import {changeDir, checkArgs, parseCommand, trimParams} from "./common.js";
 import {createFile, deleteFile, getFolderLs, renameFile} from "../fs/baseFS.js";
 import {copyFile} from "../fs/copy.js";
 import {moveFile} from "../fs/move.js";
-import {brotliCompress} from "../../streams/brotli.js";
-import {calculateHash} from "../../streams/hash.js";
 import {readFile} from "../fs/readFile.js";
+import {calculateHash} from "../streams/hash.js";
+import {brotliCompress} from "../streams/brotli.js";
 
 export const processCmd = async (chunk) => {
     const {cmd, params} = parseCommand(chunk);

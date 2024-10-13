@@ -2,8 +2,8 @@ import fs from "node:fs/promises";
 import zlib from "node:zlib";
 import path from "node:path";
 import {createReadStream, createWriteStream} from "node:fs";
-import {isDirectoryExists, isFileExists} from "../src/utils/common.js";
-import {log} from "../src/utils/prettyLog.js";
+import {isDirectoryExists, isFileExists} from "../utils/common.js";
+import {log} from "../utils/prettyLog.js";
 
 
 export const brotliCompress = async (fileToCompress, compressedPath, compress) => {

@@ -3,7 +3,7 @@ import fs from "node:fs/promises";
 import {createReadStream} from "node:fs";
 import {Transform} from "node:stream";
 import {createHash} from "node:crypto";
-import {log} from "../src/utils/prettyLog.js";
+import {log} from "../utils/prettyLog.js";
 
 export const calculateHash = async (filename) => {
     try {
