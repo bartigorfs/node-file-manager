@@ -6,7 +6,6 @@ import {baseHomeDir} from "./utils/os.js";
 import {getCurrentDir, writeGreetings} from "./utils/common.js";
 
 import {getUsername} from "./args/argv.js";
-import path from "node:path";
 
 const bootstrap = async () => {
     writeGreetings();

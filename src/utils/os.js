@@ -1,8 +1,34 @@
-import {EOL, arch, userInfo} from "node:os";
+import {EOL, cpus, type, arch, userInfo} from "node:os";
 import os from "node:os";
+import {getLinuxCpuProc} from "../cp/spawn.js";
+import {prettyCpuSpeed} from "./common.js";
 
 export const getEOL = () => {
     return EOL || 'EOL Missing';
+}
+
+export const getCpus = async () => {
+    try {
+        const osType = type();
+
+        if (!osType)
+            return `Operation failed\n`;
+
+        if (osType === 'Linux') {
+            return await getLinuxCpuProc() || [];
+        }
+
+        const parallelism = os.availableParallelism()
+
+        console.log(`Available Parallelism: ${parallelism}`)
+
+        return cpus().map(cpu => ({
+            model: cpu?.model.trim(),
+            speed: prettyCpuSpeed(cpu?.speed)
+        }))
+    } catch (e) {
+        return `Operation failed\n`
+    }
 }
 
 export const getArch = () => {
