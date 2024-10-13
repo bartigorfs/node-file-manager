@@ -4,8 +4,8 @@ import {changeDir, checkArgs, parseCommand, trimParams} from "./common.js";
 import {createFile, deleteFile, getFolderLs, renameFile} from "../fs/baseFS.js";
 import {copyFile} from "../fs/copy.js";
 import {moveFile} from "../fs/move.js";
-import {calculateHash} from "../../streams/hash.js";
 import {brotliCompress} from "../../streams/brotli.js";
+import {calculateHash} from "../../streams/hash.js";
 
 export const processCmd = async (chunk) => {
     const {cmd, params} = parseCommand(chunk);
@@ -68,6 +68,13 @@ export const processCmd = async (chunk) => {
             const fileToCopy = params[0];
             const folderToCopy = params[1];
             await brotliCompress(fileToCopy, folderToCopy, true);
+            break;
+        }
+        case 'decompress' : {
+            if (!checkArgs(params, 2)) return log.warning('Invalid input\n');
+            const fileToCopy = params[0];
+            const folderToCopy = params[1];
+            await brotliCompress(fileToCopy, folderToCopy, false);
             break;
         }
         case 'os': {
