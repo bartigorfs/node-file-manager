@@ -6,6 +6,7 @@ import {copyFile} from "../fs/copy.js";
 import {moveFile} from "../fs/move.js";
 import {brotliCompress} from "../../streams/brotli.js";
 import {calculateHash} from "../../streams/hash.js";
+import {readFile} from "../fs/readFile.js";
 
 export const processCmd = async (chunk) => {
     const {cmd, params} = parseCommand(chunk);
@@ -55,6 +56,11 @@ export const processCmd = async (chunk) => {
         }
         case 'up': {
             process.chdir('..');
+            break;
+        }
+        case 'cat': {
+            if (!checkArgs(params)) return log.warning('Invalid input\n');
+            await readFile(params[0]);
             break;
         }
         case 'hash': {
