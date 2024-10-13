@@ -4,6 +4,7 @@ import {changeDir, checkArgs, parseCommand, trimParams} from "./common.js";
 import {createFile, deleteFile, getFolderLs, renameFile} from "../fs/baseFS.js";
 import {copyFile} from "../fs/copy.js";
 import {moveFile} from "../fs/move.js";
+import {calculateHash} from "../../streams/hash.js";
 
 export const processCmd = async (chunk) => {
     const {cmd, params} = parseCommand(chunk);
@@ -53,6 +54,12 @@ export const processCmd = async (chunk) => {
         }
         case 'up': {
             process.chdir('..');
+            break;
+        }
+        case 'hash': {
+            if (!checkArgs(params)) return log.warning('Invalid input\n');
+            const fileName = params[0];
+            await calculateHash(fileName);
             break;
         }
         case 'os': {
