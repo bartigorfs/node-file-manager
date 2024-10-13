@@ -9,7 +9,12 @@ export const moveFile = async (pathToFile, pathToNewDir) => {
         const OLD_FILE_PATH = path.resolve(pathToFile);
         const NEW_FILE_PATH = path.resolve(pathToNewDir, path.basename(pathToFile));
 
-        if (!await isFileExists(OLD_FILE_PATH) || await isFileExists(NEW_FILE_PATH)) return log.warning('Operation failed\n');
+        const [oldFileExists, newFileExists] = await Promise.all([
+            isFileExists(OLD_FILE_PATH),
+            isFileExists(NEW_FILE_PATH)
+        ]);
+
+        if (!oldFileExists || newFileExists) return log.warning('Operation failed\n');
 
         if (!await isDirectoryExists(path.dirname(NEW_FILE_PATH))) {
             await fs.mkdir(path.dirname(NEW_FILE_PATH), {recursive: true});
