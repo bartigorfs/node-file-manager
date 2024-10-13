@@ -26,10 +26,9 @@ export const createFile = async (filename) => {
         const FILE_PATH = path.resolve(filename);
 
         if (!await isFileExists(FILE_PATH)) {
-            await fs.open(FILE_PATH, 'a').then(fh => fh.close());
+            await fs.open(FILE_PATH, 'a').then(fh => fh.close())
+                .then(() => log.success(`File ${filename} successfully added!\n`));
         } else log.warning('Operation failed\n');
-
-        log.success(`File ${filename} successfully added!\n`);
     } catch (e) {
         return log.warning('Operation failed\n');
     }
@@ -40,10 +39,23 @@ export const deleteFile = async (filename) => {
         const FILE_PATH = path.resolve(filename);
 
         if (await isFileExists(FILE_PATH)) {
-            await fs.rm(FILE_PATH);
+            await fs.rm(FILE_PATH)
+                .then(() => log.success(`File ${filename} successfully deleted!\n`));
         } else log.warning('Operation failed\n');
+    } catch (e) {
+        return log.warning('Operation failed\n');
+    }
+}
 
-        log.success(`File ${filename} successfully deleted!\n`);
+export const renameFile = async (oldFileName, newFileName) => {
+    try {
+        const OLD_FILE_PATH = path.resolve(oldFileName);
+        const NEW_FILE_PATH = path.resolve(newFileName);
+
+        if (await isFileExists(OLD_FILE_PATH) && !await isFileExists(NEW_FILE_PATH)) {
+            await fs.rename(OLD_FILE_PATH, NEW_FILE_PATH)
+                .then(() => log.success(`File ${oldFileName} successfully renamed to ${newFileName}!\n`));
+        } else log.warning('Operation failed\n');
     } catch (e) {
         return log.warning('Operation failed\n');
     }

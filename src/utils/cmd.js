@@ -1,7 +1,7 @@
 import {baseHomeDir, getArch, getCpus, getEOL, getSystemUserName} from "./os.js";
 import {log} from "./prettyLog.js";
 import {changeDir, checkArgs, parseCommand, trimParams} from "./common.js";
-import {createFile, deleteFile, getFolderLs} from "../fs/baseFS.js";
+import {createFile, deleteFile, getFolderLs, renameFile} from "../fs/baseFS.js";
 
 export const processCmd = async (chunk) => {
     const {cmd, params} = parseCommand(chunk);
@@ -26,6 +26,13 @@ export const processCmd = async (chunk) => {
             if (!checkArgs(params)) return log.warning('Invalid input\n');
             const deleteFileName = params[0];
             await deleteFile(deleteFileName);
+            break;
+        }
+        case 'rn': {
+            if (!checkArgs(params, 2)) return log.warning('Invalid input\n');
+            const oldFileName = params[0];
+            const newFileName = params[1];
+            await renameFile(oldFileName, newFileName);
             break;
         }
         case 'os': {
