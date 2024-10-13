@@ -13,7 +13,7 @@ export const getUsername = () => {
     if (userIndex !== -1 && userIndex + 1 < cli_args.length) {
         return cli_args[userIndex + 1];
     } else {
-        log.warning('Using fallback username');
+        log.warning('Using fallback username\n');
         return getSystemUserName();
     }
 }
