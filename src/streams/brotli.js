@@ -11,7 +11,7 @@ export const brotliCompress = async (fileToCompress, compressedPath, compress) =
         const FILE_TO_COMPRESS = path.resolve(fileToCompress);
         const COMPRESSED_PATH = path.resolve(compressedPath);
 
-        if (!await isFileExists(FILE_TO_COMPRESS) || await isFileExists(COMPRESSED_PATH)) log.warning('Operation failed\n');
+        if (!await isFileExists(FILE_TO_COMPRESS) || await isFileExists(COMPRESSED_PATH)) return log.warning('Operation failed\n');
 
         if (!await isDirectoryExists(path.dirname(COMPRESSED_PATH))) {
             await fs.mkdir(path.dirname(COMPRESSED_PATH), {recursive: true});
